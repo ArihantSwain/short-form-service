@@ -1,9 +1,11 @@
 class Node:
+    # constructor for specified priority
     def __init__(self, url, priority):
         self.url = url
         self.priority = priority
         self.next = None
 
+    # constructor for non-specified priority
     def __init(self, url):
         self.url = url
         self.priority = 0
