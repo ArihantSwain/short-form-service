@@ -4,7 +4,7 @@ import googleapiclient.errors
 # create YOUTUBE API call service
 api_service_name = "youtube"
 api_service_version = "v3"
-DEVELOPER_KEY = "AIzaSyDZplUSKPY_WyGCoYShjCHAykfA6-EBQtY" # ENTER API CREDENTIALS KEY HERE
+DEVELOPER_KEY = "" # ENTER API CREDENTIALS KEY HERE
 youtube = googleapiclient.discovery.build(api_service_name, api_service_version, developerKey = DEVELOPER_KEY)
 
 # initially prompt for a url -- need to create a URL verifier
