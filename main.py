@@ -1,6 +1,9 @@
 import googleapiclient.discovery
 import googleapiclient.errors
-import moviepy
+import ffmpeg
+import os
+from pytube import YouTube
+
 
 # has letters is a method to check if a str has letters
 def has_letters(entered_string):
@@ -13,12 +16,28 @@ def has_letters(entered_string):
 # create YOUTUBE API call service
 api_service_name = "youtube"
 api_service_version = "v3"
-DEVELOPER_KEY = ""  # ENTER API CREDENTIALS KEY HERE
+DEVELOPER_KEY = "AIzaSyAS-23IX5XDQRg9CvnsUH9SOSlH8X11EYA"  # ENTER API CREDENTIALS KEY HERE
 youtube = googleapiclient.discovery.build(api_service_name, api_service_version, developerKey=DEVELOPER_KEY)
 
 # initially prompt for a url -- need to create a URL verifier
 video_url = input("Enter a video url: ")
 number_of_clips = input("Enter a number of clips to create: ")
+duration_front = input("Enter the size of the clip prior to the timestamp in seconds: ")
+duration_back = input("Enter the size of the clip after the timestamp in seconds: ")
+
+# change directory of files
+abspath = os.path.abspath("main.py")
+dirname = os.path.dirname(abspath)
+os.chdir(dirname + "/videos/")
+
+# download video from URL to use to trim clips later
+download = YouTube(video_url)
+download.streams\
+    .filter(type="video", file_extension="mp4")\
+    .order_by()\
+    .desc()\
+    .first()\
+    .download(filename_prefix="original_video")
 
 # extract video_id from video_url
 video_id = video_url[-11:]
@@ -62,3 +81,4 @@ for i in timestamps:
         timestamps_culled.append(i)
 
 print(timestamps_culled)
+
