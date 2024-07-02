@@ -16,7 +16,7 @@ def has_letters(entered_string):
 # create YOUTUBE API call service
 api_service_name = "youtube"
 api_service_version = "v3"
-DEVELOPER_KEY = "AIzaSyAS-23IX5XDQRg9CvnsUH9SOSlH8X11EYA"  # ENTER API CREDENTIALS KEY HERE
+DEVELOPER_KEY = ""  # ENTER API CREDENTIALS KEY HERE
 youtube = googleapiclient.discovery.build(api_service_name, api_service_version, developerKey=DEVELOPER_KEY)
 
 # initially prompt for a url -- need to create a URL verifier
