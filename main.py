@@ -1,9 +1,9 @@
+import os
+
 import googleapiclient.discovery
 import googleapiclient.errors
-import ffmpeg
-import os
-from pytube import YouTube
-
+from pytubefix import YouTube
+from pathlib import Path
 
 # has letters is a method to check if a str has letters
 def has_letters(entered_string):
@@ -18,26 +18,24 @@ api_service_name = "youtube"
 api_service_version = "v3"
 DEVELOPER_KEY = ""  # ENTER API CREDENTIALS KEY HERE
 youtube = googleapiclient.discovery.build(api_service_name, api_service_version, developerKey=DEVELOPER_KEY)
+path = os.getcwd()
+print(os.getcwd())
+if os.path.isfile(path + '/video_clips_download'):
+    os.mkdir('video_clips_download')
+
+final_path = path + "/video_clips_download"
+print(final_path)
 
 # initially prompt for a url -- need to create a URL verifier
 video_url = input("Enter a video url: ")
 number_of_clips = input("Enter a number of clips to create: ")
-duration_front = input("Enter the size of the clip prior to the timestamp in seconds: ")
-duration_back = input("Enter the size of the clip after the timestamp in seconds: ")
 
-# change directory of files
-abspath = os.path.abspath("main.py")
-dirname = os.path.dirname(abspath)
-os.chdir(dirname + "/videos/")
+# on input of this, run code to download video for future use
+video_download = YouTube(video_url)
 
-# download video from URL to use to trim clips later
-download = YouTube(video_url)
-download.streams\
-    .filter(type="video", file_extension="mp4")\
-    .order_by()\
-    .desc()\
-    .first()\
-    .download(filename_prefix="original_video")
+raw_value_download = video_download.streams.get_highest_resolution()
+raw_value_download.download(output_path=final_path)
+print("downloaded video")
 
 # extract video_id from video_url
 video_id = video_url[-11:]
@@ -81,4 +79,3 @@ for i in timestamps:
         timestamps_culled.append(i)
 
 print(timestamps_culled)
-
